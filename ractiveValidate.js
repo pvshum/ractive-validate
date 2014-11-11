@@ -1,4 +1,4 @@
-define([lodash], function (_) {
+define('//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js'], function (_) {
 
     var Validate = function (ractive, rules, errorSuffix) {
 
