@@ -1,4 +1,4 @@
-define([], function () {
+define([lodash], function (_) {
 
     var Validate = function (ractive, rules, errorSuffix) {
 
@@ -17,18 +17,18 @@ define([], function () {
         self.patterns = {
             alpha: /[a-z A-Z ]+/,
             alpha_numeric: /[a-zA-Z0-9]+/,
-			digits: /-?\d+/,
+            digits: /-?\d+/,
             required: function (value) {
                 return !_.isNull(value) && !_.isEqual(value, '') && !_.isUndefined(value);
             },
-			minlength: function (value, param) {
-				return !_.isNull(value) && !_.isUndefined(value) && !_.isBoolean(value) &&
-						String(value).length >= parseInt(param, 10);
-			},
-			maxlength: function (value, param) {
-				return !_.isNull(value) && !_.isUndefined(value) && !_.isBoolean(value) &&
-						String(value).length <= parseInt(param, 10);
-			}
+            minlength: function (value, param) {
+                return !_.isNull(value) && !_.isUndefined(value) && !_.isBoolean(value) &&
+                        String(value).length >= parseInt(param, 10);
+            },
+            maxlength: function (value, param) {
+                return !_.isNull(value) && !_.isUndefined(value) && !_.isBoolean(value) &&
+                        String(value).length <= parseInt(param, 10);
+            }
         };
     };
 
@@ -37,44 +37,44 @@ define([], function () {
         validate: function () {
             var self = this;
 
-			var validateValue = function (params, rule) {
-				var self = this,
-					passed = false,
-					message = params.message || params,
-					param = params.param || null;
+            var validateValue = function (params, rule) {
+                var self = this,
+                    passed = false,
+                    message = params.message || params,
+                    param = params.param || null;
 
-				if (_.isFunction(self.patterns[rule])) {
-					passed = self.patterns[rule](self.value, param);
-				}
-				if (_.isRegExp(self.patterns[rule])) {
-					passed = self.patterns[rule].test(self.value);
-				}
+                if (_.isFunction(self.patterns[rule])) {
+                    passed = self.patterns[rule](self.value, param);
+                }
+                if (_.isRegExp(self.patterns[rule])) {
+                    passed = self.patterns[rule].test(self.value);
+                }
 
-				return {
-					rule: rule,
-					passed: passed,
-					message: passed ? '' : message
-				};
-			};
+                return {
+                    rule: rule,
+                    passed: passed,
+                    message: passed ? '' : message
+                };
+            };
 
             var invalidCount = _.filter(self.rules, function (rules, keypath) {
-				var invalid = _(rules)
-					.map(validateValue, {
-						patterns: self.patterns,
-						value: self.ractive.get(keypath)
-					})
-					.filter(function (result) {
-						return !result.passed;
-					});
+                var invalid = _(rules)
+                    .map(validateValue, {
+                        patterns: self.patterns,
+                        value: self.ractive.get(keypath)
+                    })
+                    .filter(function (result) {
+                        return !result.passed;
+                    });
 
                 self.ractive.set(keypath + self.errorSuffix, invalid[0] || null);
 
                 return invalid.length > 0;
             }).length;
 
-			return {
-				valid: invalidCount === 0
-			};
+            return {
+                valid: invalidCount === 0
+            };
         }
 
     };
