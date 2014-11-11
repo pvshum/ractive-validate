@@ -15,7 +15,15 @@ self.validation = new RactiveValidate(self.ractive, {
     'fieldKeypath': {
         required: 'Please enter the account name',
         alpha: 'Please enter a valid name',
-        someCustomRuleIMadeUp: 'You obey this rule!'
+        someCustomRuleIMadeUp: 'You obey this rule!',
+        minlength: {
+            param: 1,
+            message: 'Please enter minimum of 1 characters'
+        },
+        maxlength: {
+        	param: 5,
+        	message: 'Please enter maximum of 5 characters'
+        }
     }
 });
 ```
