@@ -9,19 +9,18 @@ DOM manipulation style libraries (Abide) work terribly with reactive templating,
 The Solution
 ------
 When you define your widget in JavaScript, in the constructor you do this:
+Create instance of RactiveValidate, passing the reactive widget instance (to get data from using [Ractive Keypaths](http://docs.ractivejs.org/latest/keypaths)) AND a validation definition.
 ```javascript
-// Create instance of RactiveValidate, passing the reactive widget instance (to get data from) AND a validation definition.
 self.validation = new RactiveValidate(self.ractive, {
-    'data.accName': {
+    'fieldKeypath': {
         required: 'Please enter the account name',
         alpha: 'Please enter a valid name',
         someCustomRuleIMadeUp: 'You obey this rule!'
     }
 });
 ```
+Allow for custom validation rules for this specific widget.
 ```javascript
-// Allow for custom validation rules for this specific widget.
-// Note we forsee a process of identifying shared rules and lifting them out of the widget and into RactiveValidate (just like abide).
 _.extend(self.validation.patterns, {
     someCustomRuleIMadeUp: function (data) {
         // Your code here
